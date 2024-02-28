@@ -9,19 +9,28 @@ class SecondScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Subway alarm',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 35,
+          ),
         ),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.alarm,
-            color: Colors.black,
-            size: 80,
-          )
-        ],
+      backgroundColor: Theme.of(context).cardColor,
+      body: Padding(
+        padding: const EdgeInsets.all(50),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 500,
+            ),
+            Icon(
+              Icons.alarm,
+              color: Colors.black,
+              size: 80,
+            )
+          ],
+        ),
       ),
     );
   }

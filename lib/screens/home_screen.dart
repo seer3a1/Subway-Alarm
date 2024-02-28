@@ -20,116 +20,151 @@ List<String> SubwayStations = [
   '지하철9',
 ];
 
+final _formKey = GlobalKey<FormState>();
+
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController departureController = TextEditingController();
   TextEditingController destinationController = TextEditingController();
   bool showSubwayList = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Subway alarm',
-          style: TextStyle(color: Colors.black, fontSize: 35),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 35,
+          ),
         ),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).cardColor,
       body: Padding(
         padding: const EdgeInsets.all(40),
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '출발역 :',
-                        style: TextStyle(
-                          color: Theme.of(context).cardColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          '출발역 :',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: departureController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 58,
+                          child: TextFormField(
+                            controller: departureController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '출발역을 입력하지 않았습니다.';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: '출발역을 입력해주세요.',
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '도착역 :',
-                        style: TextStyle(
-                          color: Theme.of(context).cardColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          '도착역 :',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: departureController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 58,
+                          child: TextFormField(
+                            controller: destinationController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '도착역을 입력하지 않았습니다.';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: '도착역을 입력해주세요.',
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Card(
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () {
-                      setState(() {
-                        showSubwayList = !showSubwayList;
-                      });
-                    },
-                    child: const Icon(
-                      Icons.done,
-                      color: Colors.green,
-                      size: 60,
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Card(
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            showSubwayList = !showSubwayList;
+                          });
+                        }
+                      },
+                      child: const Icon(
+                        Icons.done,
+                        color: Colors.green,
+                        size: 60,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Visibility(
-              visible: showSubwayList,
-              child: Subway_List(),
-            )
-          ],
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Visibility(
+                visible: showSubwayList,
+                child: Subway_List(),
+              )
+            ],
+          ),
         ),
       ),
     );
